@@ -1,4 +1,4 @@
-package com.calinux.chessdb.dao;
+package com.calinux.chessdb.repository;
 
 import com.calinux.chessdb.entity.UserDetail;
 import org.springframework.data.jpa.repository.JpaRepository;

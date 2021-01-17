@@ -4,13 +4,15 @@ _**US-1**_ As a user I want to be able to import one or more chess games so that
 
     Tasks:
         US-1-1 set up project structure and entities/dao
-        US-1-2 create service and endpoint for importing PGN files
-        US-1-3 set up JWT based authentication and authorization
+        US-1-2 create service, endpoint and jobs for importing PGN files
 
-_**US-2**_ As a user I want to be able to send valid chess moves so that I can play a game of chess
+_**US-2**_ As a user I want to be able to create a game and send valid chess moves so that I can play a game of chess with another player
 
 _**US-3**_ As a user I want to be able to signup and login so that I can access the application and have access to my
 information
+
+    Tasks:
+        US-3-1 set up JWT based authentication and authorization
 
 _**US-4**_ As a user I want to be able to search for other users so that I can add them as friends
 

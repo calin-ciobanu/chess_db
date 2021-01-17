@@ -1,10 +1,8 @@
 package com.calinux.chessdb.entity.enums;
 
 public enum GameResultType {
-    UNDEFINED,
-    MATE,
-    RESIGN,
+    ONGOING,
     DRAW,
-    TIME,
-    ABORTED
+    WHITE_WON,
+    BLACK_WON
 }

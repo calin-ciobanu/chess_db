@@ -1,6 +1,9 @@
 package com.calinux.chessdb.entity;
 
 import com.calinux.chessdb.entity.base.AuditableEntity;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,7 +11,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(
-        name = "user",
+        name = "\"user\"",
         indexes = {
                 @Index(name = "idx_user_name", columnList = "first_name, last_name, username"),
                 @Index(name = "idx_user_email", columnList = "email", unique = true),
@@ -18,6 +21,8 @@ import javax.validation.constraints.Size;
                 @UniqueConstraint(name = "unique_user_username", columnNames = "username")
         }
 )
+@Getter @Setter
+@ToString
 public class User extends AuditableEntity {
 
     // Fields
@@ -42,7 +47,7 @@ public class User extends AuditableEntity {
     private String email;
 
     // External References
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk__user__user_detail"), name = "user_detail_id", referencedColumnName = "id", columnDefinition = "bigint", nullable = false)
     @NotNull
     private UserDetail userDetail;

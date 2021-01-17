@@ -2,6 +2,9 @@ package com.calinux.chessdb.entity;
 
 import com.calinux.chessdb.entity.base.BaseEntity;
 import com.calinux.chessdb.entity.enums.BoardSides;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,12 +12,14 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(
-        name = "move",
+        name = "chess_move",
         indexes = {
-                @Index(name = "idx_move_game_id", columnList = "game_id")
+                @Index(name = "idx_chess_move_chess_game_id", columnList = "chess_game_id")
         }
 )
-public class Move extends BaseEntity {
+@Getter @Setter
+@ToString
+public class ChessMove extends BaseEntity {
 
     // Fields
     @Column(name = "side", length = 10, nullable = false)
@@ -34,9 +39,9 @@ public class Move extends BaseEntity {
 
     // External References
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk__move__game"), name = "game_id", referencedColumnName = "id", columnDefinition = "bigint", nullable = false)
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk__chess_move__chess_game"), name = "chess_game_id", referencedColumnName = "id", columnDefinition = "bigint", nullable = false)
     @NotNull
-    private Game game;
+    private ChessGame chessGame;
 
 
 }

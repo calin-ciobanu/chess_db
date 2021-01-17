@@ -1,6 +1,9 @@
 package com.calinux.chessdb.entity;
 
 import com.calinux.chessdb.entity.base.AuditableEntity;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -12,6 +15,8 @@ import javax.validation.constraints.Size;
                 @Index(name = "idx_user_detail_rating", columnList = "rating")
         }
 )
+@Getter @Setter
+@ToString
 public class UserDetail extends AuditableEntity {
 
     // Fields
