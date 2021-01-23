@@ -25,9 +25,9 @@ public class PGNGameItemReader implements ItemReader<Game> {
     private ItemReader<Game> delegate;
 
     @BeforeStep
-    public void beforeStep(final StepExecution stepExecution)  {
+    public void beforeStep(final StepExecution stepExecution) {
         JobParameters jobParameters = stepExecution.getJobParameters();
-        log.info(String.format("Importing PGN file %s",filename));
+        log.info(String.format("Importing PGN file %s", filename));
         filename = jobParameters.getString("filename");
     }
 

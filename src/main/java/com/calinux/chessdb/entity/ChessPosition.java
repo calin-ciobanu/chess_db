@@ -19,7 +19,8 @@ import javax.validation.constraints.Size;
                 @Index(name = "idx_chess_position_move_id", columnList = "chess_move_id")
         }
 )
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class ChessPosition extends BaseEntity {
 

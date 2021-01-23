@@ -1,14 +1,12 @@
 package com.calinux.chessdb.entity;
 
 import com.calinux.chessdb.entity.base.AuditableEntity;
-import com.calinux.chessdb.entity.enums.BoardSides;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +20,8 @@ import java.util.List;
                 @Index(name = "idx_chess_game_pgn_game_id", columnList = "pgn_game_id")
         }
 )
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class ChessGame extends AuditableEntity {
 

@@ -31,6 +31,10 @@ public class ImportChessGameProcessor implements ItemProcessor<PgnGame, ChessGam
 
         Game game = loadGame(pgnGame);
 
+        if (game == null) {
+            return null;
+        }
+
         ChessGame chessGame = mapGenericFields(new ChessGame(), game);
 
         chessGame.setWhitePlayer(mapPlayer(game.getWhitePlayer()));
@@ -48,7 +52,7 @@ public class ImportChessGameProcessor implements ItemProcessor<PgnGame, ChessGam
     private Game loadGame(PgnGame pgnGame) {
         PgnHolder pgn = new PgnHolder(null);
         try {
-            LargeFile largeFile= new LargeFile(new ByteArrayInputStream(pgnGame.getPgnText().getBytes()));
+            LargeFile largeFile = new LargeFile(new ByteArrayInputStream(pgnGame.getPgnText().getBytes()));
             pgn.loadPgn(largeFile);
         } catch (Exception e) {
             return null;
@@ -119,8 +123,8 @@ public class ImportChessGameProcessor implements ItemProcessor<PgnGame, ChessGam
         ChessTimeControl chessTimeControl = new ChessTimeControl();
 
         if (game.getRound().getEvent().getTimeControl() != null) {
-            chessTimeControl.setGameTimeInSeconds((int) game.getRound().getEvent().getTimeControl().getMilliseconds()/1000);
-            chessTimeControl.setIncrementPerMoveInSeconds((int) game.getRound().getEvent().getTimeControl().getIncrement()/1000);
+            chessTimeControl.setGameTimeInSeconds((int) game.getRound().getEvent().getTimeControl().getMilliseconds() / 1000);
+            chessTimeControl.setIncrementPerMoveInSeconds((int) game.getRound().getEvent().getTimeControl().getIncrement() / 1000);
         } else {
             chessTimeControl.setGameTimeInSeconds(-1);
             chessTimeControl.setIncrementPerMoveInSeconds(-1);

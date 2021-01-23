@@ -6,8 +6,14 @@ import org.springframework.batch.core.BatchStatus;
 
 import java.util.Date;
 
-@Getter @Setter
+@Getter
+@Setter
 public class ImportGameResponseDTO {
+
+    private Long jobId;
+    private BatchStatus status;
+    private Date startedAt;
+    private Date endedAt;
 
     public ImportGameResponseDTO(Long jobId, BatchStatus status, Date startedAt, Date endedAt) {
         this.jobId = jobId;
@@ -15,13 +21,5 @@ public class ImportGameResponseDTO {
         this.startedAt = startedAt;
         this.endedAt = endedAt;
     }
-
-    private Long jobId;
-
-    private BatchStatus status;
-
-    private Date startedAt;
-
-    private Date endedAt;
 
 }

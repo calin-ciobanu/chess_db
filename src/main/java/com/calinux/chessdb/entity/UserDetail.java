@@ -15,7 +15,8 @@ import javax.validation.constraints.Size;
                 @Index(name = "idx_user_detail_rating", columnList = "rating")
         }
 )
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class UserDetail extends AuditableEntity {
 

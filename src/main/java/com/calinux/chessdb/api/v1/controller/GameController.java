@@ -1,7 +1,7 @@
 package com.calinux.chessdb.api.v1.controller;
 
 import com.calinux.chessdb.api.v1.dto.ImportGameResponseDTO;
-import com.calinux.chessdb.service.ImportGamesService;
+import com.calinux.chessdb.service.ImportGamesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,8 +10,12 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1/games")
 public class GameController {
 
+    private ImportGamesServiceImpl importGamesService;
+
     @Autowired
-    private ImportGamesService importGamesService;
+    public GameController(ImportGamesServiceImpl importGamesService) {
+        this.importGamesService = importGamesService;
+    }
 
     @PostMapping("/upload")
     public ImportGameResponseDTO uploadPGNDB(@RequestPart MultipartFile file) {

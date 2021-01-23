@@ -16,20 +16,27 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @EnableScheduling
 @EnableBatchProcessing
 public class BatchConfiguration {
-    @Autowired
+
     private JobRepository jobRepository;
-
-    @Value("${job.max-pool-size}")
     private Integer maxPoolSize;
-
-    @Value("${job.core-pool-size}")
     private Integer corePoolSize;
-
-    @Value("${job.queue-capacity}")
     private Integer queueCapacity;
 
+    @Autowired
+    public BatchConfiguration(
+            JobRepository jobRepository,
+            @Value("${job.max-pool-size}") Integer maxPoolSize,
+            @Value("${job.core-pool-size}") Integer corePoolSize,
+            @Value("${job.queue-capacity}") Integer queueCapacity
+    ) {
+        this.jobRepository = jobRepository;
+        this.maxPoolSize = maxPoolSize;
+        this.corePoolSize = corePoolSize;
+        this.queueCapacity = queueCapacity;
+    }
+
     @Bean
-    public TaskExecutor threadPoolTaskExecutor(){
+    public TaskExecutor threadPoolTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setMaxPoolSize(maxPoolSize);
         executor.setCorePoolSize(corePoolSize);
@@ -39,7 +46,7 @@ public class BatchConfiguration {
     }
 
     @Bean
-    public TaskExecutor syncTaskExecutor(){
+    public TaskExecutor syncTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setMaxPoolSize(1);
         executor.setCorePoolSize(1);

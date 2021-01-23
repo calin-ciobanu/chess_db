@@ -6,7 +6,8 @@ _**US-1**_ As a user I want to be able to import one or more chess games so that
         US-1-1 set up project structure and entities/dao
         US-1-2 create service, endpoint and jobs for importing PGN files
 
-_**US-2**_ As a user I want to be able to create a game and send valid chess moves so that I can play a game of chess with another player
+_**US-2**_ As a user I want to be able to create a game and send valid chess moves so that I can play a game of chess
+with another player
 
 _**US-3**_ As a user I want to be able to signup and login so that I can access the application and have access to my
 information

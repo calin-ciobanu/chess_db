@@ -21,7 +21,8 @@ import javax.validation.constraints.Size;
                 @UniqueConstraint(name = "unique_user_username", columnNames = "username")
         }
 )
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class User extends AuditableEntity {
 

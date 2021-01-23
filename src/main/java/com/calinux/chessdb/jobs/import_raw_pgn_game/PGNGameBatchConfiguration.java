@@ -16,21 +16,26 @@ import javax.persistence.EntityManagerFactory;
 @Configuration
 public class PGNGameBatchConfiguration {
 
-
-    @Autowired
     private JobBuilderFactory jobBuilderFactory;
-
-    @Autowired
     private StepBuilderFactory stepBuilderFactory;
-
-    @Autowired
     private PGNGameItemReader PGNGameItemReader;
-
-    @Autowired
     private PGNGameItemProcessor PGNGameItemProcessor;
+    private EntityManagerFactory entityManagerFactory;
 
     @Autowired
-    private EntityManagerFactory entityManagerFactory;
+    public PGNGameBatchConfiguration(
+            JobBuilderFactory jobBuilderFactory,
+            StepBuilderFactory stepBuilderFactory,
+            PGNGameItemReader PGNGameItemReader,
+            PGNGameItemProcessor PGNGameItemProcessor,
+            EntityManagerFactory entityManagerFactory
+    ) {
+        this.jobBuilderFactory = jobBuilderFactory;
+        this.stepBuilderFactory = stepBuilderFactory;
+        this.PGNGameItemReader = PGNGameItemReader;
+        this.PGNGameItemProcessor = PGNGameItemProcessor;
+        this.entityManagerFactory = entityManagerFactory;
+    }
 
     @Bean
     public JpaItemWriter chessGameItemWriter() {

@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
@@ -27,23 +26,28 @@ public class ImportChessGameBatchConfiguration {
     private static final String QUERY_FIND_NEW_GAMES =
             "SELECT * FROM pgn_game WHERE processed=FALSE ORDER BY id ASC;";
 
-    @Autowired
     private JobLauncher jobLauncher;
-
-    @Autowired
-    ApplicationContext context;
-
-    @Autowired
+    private ApplicationContext context;
     private JobBuilderFactory jobBuilderFactory;
-
-    @Autowired
     private StepBuilderFactory stepBuilderFactory;
-
-    @Autowired
     private ImportChessGameProcessor importChessGameProcessor;
+    private ImportChessGameWriter importChessGameWriter;
 
     @Autowired
-    private ImportChessGameWriter importChessGameWriter;
+    public ImportChessGameBatchConfiguration(
+            JobLauncher jobLauncher,
+            ApplicationContext context,
+            JobBuilderFactory jobBuilderFactory,
+            StepBuilderFactory stepBuilderFactory,
+            ImportChessGameProcessor importChessGameProcessor,
+            ImportChessGameWriter importChessGameWriter) {
+        this.jobLauncher = jobLauncher;
+        this.context = context;
+        this.jobBuilderFactory = jobBuilderFactory;
+        this.stepBuilderFactory = stepBuilderFactory;
+        this.importChessGameProcessor = importChessGameProcessor;
+        this.importChessGameWriter = importChessGameWriter;
+    }
 
     @Bean
     public ItemReader<PgnGame> pgnGameCursorItemReader(DataSource dataSource) {

@@ -1,7 +1,6 @@
 package com.calinux.chessdb.entity;
 
 import com.calinux.chessdb.entity.base.AuditableEntity;
-import com.calinux.chessdb.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,7 +19,8 @@ import javax.validation.constraints.NotNull;
                 @Index(name = "idx_pgn_game_processed", columnList = "processed")
         }
 )
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class PgnGame extends AuditableEntity {
 

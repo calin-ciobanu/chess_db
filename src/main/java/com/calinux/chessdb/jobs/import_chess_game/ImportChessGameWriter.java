@@ -20,22 +20,25 @@ import java.util.List;
 @Slf4j
 public class ImportChessGameWriter extends JpaItemWriter<ChessGame> {
 
-    @Autowired
     private ChessGameRepository chessGameRepository;
-
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private PgnGameRepository pgnGameRepository;
-
-    @Autowired
     private ChessTimeControlRepository chessTimeControlRepository;
 
     @Autowired
-    public ImportChessGameWriter(EntityManagerFactory entityManagerFactory) {
+    public ImportChessGameWriter(
+            EntityManagerFactory entityManagerFactory,
+            ChessGameRepository chessGameRepository,
+            UserRepository userRepository,
+            PgnGameRepository pgnGameRepository,
+            ChessTimeControlRepository chessTimeControlRepository
+    ) {
         super();
         setEntityManagerFactory(entityManagerFactory);
+        this.chessGameRepository = chessGameRepository;
+        this.userRepository = userRepository;
+        this.pgnGameRepository = pgnGameRepository;
+        this.chessTimeControlRepository = chessTimeControlRepository;
     }
 
     @Override
