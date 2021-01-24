@@ -43,12 +43,12 @@ public class ChessGame extends AuditableEntity {
     @OneToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk__game_white__user"), name = "white_player_id", referencedColumnName = "id", columnDefinition = "bigint", nullable = false)
     @NotNull
-    private User whitePlayer;
+    private ChessUser whitePlayer;
 
     @OneToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk__game_black__game_result"), name = "black_player_id", referencedColumnName = "id", columnDefinition = "bigint", nullable = false)
     @NotNull
-    private User blackPlayer;
+    private ChessUser blackPlayer;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk__chess_game__chess_time_control"), name = "chess_time_control_id", referencedColumnName = "id", columnDefinition = "bigint", nullable = false)

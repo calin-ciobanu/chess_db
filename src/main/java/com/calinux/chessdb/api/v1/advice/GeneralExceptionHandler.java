@@ -1,7 +1,12 @@
 package com.calinux.chessdb.api.v1.advice;
 
+import com.calinux.chessdb.api.v1.dto.ErrorResponseDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +27,11 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.stream.Collectors;
+
 @ControllerAdvice
+@Slf4j
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -76,7 +85,21 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return super.handleMethodArgumentNotValid(ex, headers, status, request);
+        String errorMessage = ex.getBindingResult().getFieldErrors().stream()
+                .map(
+                        violation -> String.format(
+                                "%s :: %s, ",
+                                violation.getField(),
+                                violation.getRejectedValue()
+                        )
+                ).collect(Collectors.joining());
+
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                errorMessage,
+                System.currentTimeMillis()
+        );
+        return handleExceptionInternal(ex, errorResponseDTO, headers, HttpStatus.BAD_REQUEST, request);
     }
 
     @Override

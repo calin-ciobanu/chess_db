@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -98,6 +99,8 @@ class ImportGamesServiceTest {
     void GIVEN_a_valid_pgn_file_WHEN_job_start_fails_THEN_game_import_exception_is_thrown() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
         MockMultipartFile mockPGN = new MockMultipartFile("valid.pgn", validPGN.getBytes(StandardCharsets.UTF_8));
 
+        when(jobLauncher.run(any(),any())).thenThrow(new JobParametersInvalidException("error"));
+
         assertThatThrownBy(
                 () -> importGamesService.importGames(mockPGN)
         )
@@ -109,20 +112,11 @@ class ImportGamesServiceTest {
     void GIVEN_a_valid_pgn_file_WHEN_job_start_succeeds_THEN_success_response_is_returned() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
         MockMultipartFile mockPGN = new MockMultipartFile("valid.pgn", validPGN.getBytes(StandardCharsets.UTF_8));
 
-        Date date = new Date();
-        when(jobExecution.getId()).thenReturn(1l);
-        when(jobExecution.getStatus()).thenReturn(BatchStatus.STARTING);
-        when(jobExecution.getCreateTime()).thenReturn(date);
-
-
         when(jobLauncher.run(any(), any())).thenReturn(jobExecution);
 
-        ImportGameResponseDTO importGameResponseDTO = importGamesService.importGames(mockPGN);
+        JobExecution jobExecution = importGamesService.importGames(mockPGN);
 
-        assertThat(importGameResponseDTO.getJobId()).isEqualTo(1l);
-        assertThat(importGameResponseDTO.getStatus()).isEqualTo(BatchStatus.STARTING);
-        assertThat(importGameResponseDTO.getStartedAt()).isEqualTo(date);
-        assertThat(importGameResponseDTO.getEndedAt()).isNull();
+        assertThat(jobExecution).isNotNull();
     }
 
     // getImportStatus
@@ -130,19 +124,11 @@ class ImportGamesServiceTest {
     void GIVEN_a_valid_job_id_WHEN_get_import_status_is_called_THEN_information_about_the_job_is_returned() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
         Long jobId = 1l;
 
-        Date date = new Date();
-        when(jobExecution.getId()).thenReturn(jobId);
-        when(jobExecution.getStatus()).thenReturn(BatchStatus.STARTING);
-        when(jobExecution.getCreateTime()).thenReturn(date);
-
         when(jobExplorer.getJobExecution(jobId)).thenReturn(jobExecution);
 
-        ImportGameResponseDTO importGameResponseDTO = importGamesService.getImportStatus(jobId);
+        JobExecution jobExecution = importGamesService.getImportStatus(jobId);
 
-        assertThat(importGameResponseDTO.getJobId()).isEqualTo(jobId);
-        assertThat(importGameResponseDTO.getStatus()).isEqualTo(BatchStatus.STARTING);
-        assertThat(importGameResponseDTO.getStartedAt()).isEqualTo(date);
-        assertThat(importGameResponseDTO.getEndedAt()).isNull();
+        assertThat(jobExecution).isNotNull();
     }
 
     @Test

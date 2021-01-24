@@ -21,7 +21,7 @@ import java.io.File;
 @Service
 @Slf4j
 @Setter
-public class ImportGamesServiceImpl {
+public class ImportGamesServiceImpl implements ImportGamesService {
 
     private String tempDir;
     private JobExplorer jobExplorer;
@@ -36,7 +36,8 @@ public class ImportGamesServiceImpl {
         this.importCustomersJob = importCustomersJob;
     }
 
-    public ImportGameResponseDTO importGames(MultipartFile pgnFile) {
+    @Override
+    public JobExecution importGames(MultipartFile pgnFile) {
 
         // Save PGN file to temp location from where it is processed
         File tempFile = new File(tempDir, String.valueOf(System.currentTimeMillis()) + pgnFile.getOriginalFilename());
@@ -54,28 +55,19 @@ public class ImportGamesServiceImpl {
 
             JobExecution jobExecution = asyncJobLauncher.run(importCustomersJob, jobParameters);
 
-            return new ImportGameResponseDTO(
-                    jobExecution.getId(),
-                    jobExecution.getStatus(),
-                    jobExecution.getCreateTime(),
-                    jobExecution.getEndTime()
-            );
+            return jobExecution;
         } catch (Exception e) {
             throw new GameImportException("Import job failed to start", e);
         }
     }
 
-    public ImportGameResponseDTO getImportStatus(Long jobId) {
+    @Override
+    public JobExecution getImportStatus(Long jobId) {
         JobExecution jobExecution = jobExplorer.getJobExecution(jobId);
-        try {
-            return new ImportGameResponseDTO(
-                    jobExecution.getId(),
-                    jobExecution.getStatus(),
-                    jobExecution.getCreateTime(),
-                    jobExecution.getEndTime()
-            );
-        } catch (NullPointerException e) {
-            throw new JobNotFoundException(jobId, e);
+
+        if (jobExecution == null) {
+            throw new JobNotFoundException(jobId);
         }
+        return jobExecution;
     }
 }

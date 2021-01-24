@@ -9,6 +9,7 @@ import com.github.bhlangonijr.chesslib.move.Move;
 import com.github.bhlangonijr.chesslib.pgn.PgnHolder;
 import com.github.bhlangonijr.chesslib.util.LargeFile;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
@@ -61,30 +62,31 @@ public class ImportChessGameProcessor implements ItemProcessor<PgnGame, ChessGam
         return pgn.getGames().get(0);
     }
 
-    private User mapPlayer(Player player) {
-        User user = new User();
+    private ChessUser mapPlayer(Player player) {
+        ChessUser chessUser = new ChessUser();
 
         String[] name = player.getName().split(",");
 
         if (name.length > 1) {
-            user.setFirstName(name[1].strip());
+            chessUser.setFirstName(name[1].strip());
         } else {
-            user.setFirstName("Unknown");
+            chessUser.setFirstName("Unknown");
         }
-        user.setLastName(name[0].strip());
-        user.setUsername(String.format(
+        chessUser.setLastName(name[0].strip());
+        chessUser.setUsername(String.format(
                 "%s_%s",
-                user.getFirstName().toLowerCase(),
-                user.getLastName().toLowerCase()
+                chessUser.getFirstName().toLowerCase(),
+                chessUser.getLastName().toLowerCase()
         ));
-        user.setEmail(String.format("%s@imported.com", user.getUsername()));
+        chessUser.setEmail(String.format("%s@imported.com", chessUser.getUsername()));
+        chessUser.setPassword(new RandomStringGenerator.Builder().withinRange(33, 45).build().generate(20));
 
-        UserDetail userDetail = new UserDetail();
-        userDetail.setAbout("");
-        userDetail.setRating(player.getElo());
-        user.setUserDetail(userDetail);
+        ChessUserDetail chessUserDetail = new ChessUserDetail();
+        chessUserDetail.setAbout("");
+        chessUserDetail.setRating(player.getElo());
+        chessUser.setChessUserDetail(chessUserDetail);
 
-        return user;
+        return chessUser;
     }
 
     private List<ChessMove> mapMoves(Game game) {

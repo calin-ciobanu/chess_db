@@ -1,5 +1,6 @@
 package com.calinux.chessdb.api.v1.dto;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

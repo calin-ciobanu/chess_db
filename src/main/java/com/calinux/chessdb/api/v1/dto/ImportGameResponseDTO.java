@@ -12,14 +12,15 @@ public class ImportGameResponseDTO {
 
     private Long jobId;
     private BatchStatus status;
+    private Date createdAt;
     private Date startedAt;
     private Date endedAt;
 
-    public ImportGameResponseDTO(Long jobId, BatchStatus status, Date startedAt, Date endedAt) {
+    public ImportGameResponseDTO(Long jobId, BatchStatus status, Date createdAt, Date startedAt, Date endedAt) {
         this.jobId = jobId;
         this.status = status;
+        this.createdAt = createdAt;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
     }
-
 }

@@ -2,12 +2,12 @@ package com.calinux.chessdb.jobs.import_chess_game;
 
 import com.calinux.chessdb.entity.ChessGame;
 import com.calinux.chessdb.entity.ChessTimeControl;
+import com.calinux.chessdb.entity.ChessUser;
 import com.calinux.chessdb.entity.PgnGame;
-import com.calinux.chessdb.entity.User;
 import com.calinux.chessdb.repository.ChessGameRepository;
 import com.calinux.chessdb.repository.ChessTimeControlRepository;
 import com.calinux.chessdb.repository.PgnGameRepository;
-import com.calinux.chessdb.repository.UserRepository;
+import com.calinux.chessdb.repository.ChessUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.List;
 public class ImportChessGameWriter extends JpaItemWriter<ChessGame> {
 
     private ChessGameRepository chessGameRepository;
-    private UserRepository userRepository;
+    private ChessUserRepository chessUserRepository;
     private PgnGameRepository pgnGameRepository;
     private ChessTimeControlRepository chessTimeControlRepository;
 
@@ -29,14 +29,14 @@ public class ImportChessGameWriter extends JpaItemWriter<ChessGame> {
     public ImportChessGameWriter(
             EntityManagerFactory entityManagerFactory,
             ChessGameRepository chessGameRepository,
-            UserRepository userRepository,
+            ChessUserRepository chessUserRepository,
             PgnGameRepository pgnGameRepository,
             ChessTimeControlRepository chessTimeControlRepository
     ) {
         super();
         setEntityManagerFactory(entityManagerFactory);
         this.chessGameRepository = chessGameRepository;
-        this.userRepository = userRepository;
+        this.chessUserRepository = chessUserRepository;
         this.pgnGameRepository = pgnGameRepository;
         this.chessTimeControlRepository = chessTimeControlRepository;
     }
@@ -50,8 +50,8 @@ public class ImportChessGameWriter extends JpaItemWriter<ChessGame> {
                 chessGame.setBlackPlayer(getUser(chessGame.getBlackPlayer()));
                 chessGame.setWhitePlayer(getUser(chessGame.getWhitePlayer()));
 
-                userRepository.save(chessGame.getBlackPlayer());
-                userRepository.save(chessGame.getWhitePlayer());
+                chessUserRepository.save(chessGame.getBlackPlayer());
+                chessUserRepository.save(chessGame.getWhitePlayer());
 
                 chessGameRepository.save(chessGame);
             } else {
@@ -75,12 +75,12 @@ public class ImportChessGameWriter extends JpaItemWriter<ChessGame> {
         return timeControl;
     }
 
-    private User getUser(User user) {
-        User foundUser = userRepository.findByUsername(user.getUsername());
-        if (foundUser != null) {
-            return foundUser;
+    private ChessUser getUser(ChessUser chessUser) {
+        ChessUser foundChessUser = chessUserRepository.findByUsername(chessUser.getUsername());
+        if (foundChessUser != null) {
+            return foundChessUser;
         }
-        return user;
+        return chessUser;
     }
 
 }

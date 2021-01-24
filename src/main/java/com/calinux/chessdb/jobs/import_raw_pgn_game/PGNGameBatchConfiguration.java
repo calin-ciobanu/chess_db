@@ -2,6 +2,7 @@ package com.calinux.chessdb.jobs.import_raw_pgn_game;
 
 import com.calinux.chessdb.entity.PgnGame;
 import com.github.bhlangonijr.chesslib.game.Game;
+import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -14,28 +15,14 @@ import org.springframework.context.annotation.Configuration;
 import javax.persistence.EntityManagerFactory;
 
 @Configuration
+@RequiredArgsConstructor
 public class PGNGameBatchConfiguration {
 
-    private JobBuilderFactory jobBuilderFactory;
-    private StepBuilderFactory stepBuilderFactory;
-    private PGNGameItemReader PGNGameItemReader;
-    private PGNGameItemProcessor PGNGameItemProcessor;
-    private EntityManagerFactory entityManagerFactory;
-
-    @Autowired
-    public PGNGameBatchConfiguration(
-            JobBuilderFactory jobBuilderFactory,
-            StepBuilderFactory stepBuilderFactory,
-            PGNGameItemReader PGNGameItemReader,
-            PGNGameItemProcessor PGNGameItemProcessor,
-            EntityManagerFactory entityManagerFactory
-    ) {
-        this.jobBuilderFactory = jobBuilderFactory;
-        this.stepBuilderFactory = stepBuilderFactory;
-        this.PGNGameItemReader = PGNGameItemReader;
-        this.PGNGameItemProcessor = PGNGameItemProcessor;
-        this.entityManagerFactory = entityManagerFactory;
-    }
+    private final JobBuilderFactory jobBuilderFactory;
+    private final StepBuilderFactory stepBuilderFactory;
+    private final PGNGameItemReader PGNGameItemReader;
+    private final PGNGameItemProcessor PGNGameItemProcessor;
+    private final EntityManagerFactory entityManagerFactory;
 
     @Bean
     public JpaItemWriter chessGameItemWriter() {

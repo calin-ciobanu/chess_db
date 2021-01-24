@@ -2,6 +2,7 @@ package com.calinux.chessdb.jobs.import_chess_game;
 
 import com.calinux.chessdb.entity.ChessGame;
 import com.calinux.chessdb.entity.PgnGame;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -21,33 +22,18 @@ import javax.sql.DataSource;
 
 @Configuration
 @Slf4j
+@RequiredArgsConstructor
 public class ImportChessGameBatchConfiguration {
 
     private static final String QUERY_FIND_NEW_GAMES =
             "SELECT * FROM pgn_game WHERE processed=FALSE ORDER BY id ASC;";
 
-    private JobLauncher jobLauncher;
-    private ApplicationContext context;
-    private JobBuilderFactory jobBuilderFactory;
-    private StepBuilderFactory stepBuilderFactory;
-    private ImportChessGameProcessor importChessGameProcessor;
-    private ImportChessGameWriter importChessGameWriter;
-
-    @Autowired
-    public ImportChessGameBatchConfiguration(
-            JobLauncher jobLauncher,
-            ApplicationContext context,
-            JobBuilderFactory jobBuilderFactory,
-            StepBuilderFactory stepBuilderFactory,
-            ImportChessGameProcessor importChessGameProcessor,
-            ImportChessGameWriter importChessGameWriter) {
-        this.jobLauncher = jobLauncher;
-        this.context = context;
-        this.jobBuilderFactory = jobBuilderFactory;
-        this.stepBuilderFactory = stepBuilderFactory;
-        this.importChessGameProcessor = importChessGameProcessor;
-        this.importChessGameWriter = importChessGameWriter;
-    }
+    private final JobLauncher jobLauncher;
+    private final ApplicationContext context;
+    private final JobBuilderFactory jobBuilderFactory;
+    private final StepBuilderFactory stepBuilderFactory;
+    private final ImportChessGameProcessor importChessGameProcessor;
+    private final ImportChessGameWriter importChessGameWriter;
 
     @Bean
     public ItemReader<PgnGame> pgnGameCursorItemReader(DataSource dataSource) {

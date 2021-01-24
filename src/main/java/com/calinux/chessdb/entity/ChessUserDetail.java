@@ -10,15 +10,15 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(
-        name = "user_detail",
+        name = "chess_user_detail",
         indexes = {
-                @Index(name = "idx_user_detail_rating", columnList = "rating")
+                @Index(name = "idx_chess_user_detail_rating", columnList = "rating")
         }
 )
 @Getter
 @Setter
 @ToString
-public class UserDetail extends AuditableEntity {
+public class ChessUserDetail extends AuditableEntity {
 
     // Fields
     @Lob
