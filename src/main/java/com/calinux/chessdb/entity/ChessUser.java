@@ -1,11 +1,13 @@
 package com.calinux.chessdb.entity;
 
 import com.calinux.chessdb.entity.base.AuditableEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.Cascade;
+import com.calinux.chessdb.entity.enums.ChessUserRole;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -54,6 +56,11 @@ public class ChessUser extends AuditableEntity {
     @NotNull
     private String password;
 
+    @Column(name = "role", nullable = false)
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private ChessUserRole role;
+
     // External References
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk__chess_user__chess_user_detail"), name = "chess_user_detail_id", referencedColumnName = "id", columnDefinition = "bigint", nullable = false)
@@ -61,7 +68,6 @@ public class ChessUser extends AuditableEntity {
     private ChessUserDetail chessUserDetail;
 
     public void setPassword(String password) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.password = passwordEncoder.encode(password);
+        this.password = new BCryptPasswordEncoder().encode(password);
     }
 }

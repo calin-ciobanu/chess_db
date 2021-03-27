@@ -1,6 +1,5 @@
 package com.calinux.chessdb.service;
 
-import com.calinux.chessdb.api.v1.dto.ImportGameResponseDTO;
 import com.calinux.chessdb.api.v1.exception.GameImportException;
 import com.calinux.chessdb.api.v1.exception.JobNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -27,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

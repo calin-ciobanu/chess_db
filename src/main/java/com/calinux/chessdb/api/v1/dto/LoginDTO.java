@@ -12,13 +12,13 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDTO extends ChessUserDTO {
+public class LoginDTO {
 
     @NotNull
     @NotEmpty
-    private String token;
+    private String username;
 
     @NotNull
     @NotEmpty
-    private String refreshToken;
+    private String password;
 }

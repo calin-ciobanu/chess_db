@@ -59,6 +59,7 @@
         first_name varchar(100) not null,
         last_name varchar(100) not null,
         password varchar(255) not null,
+        role varchar(255) not null,
         username varchar(100) not null,
         chess_user_detail_id bigint not null,
         primary key (id)
@@ -72,6 +73,18 @@
         updated_by varchar(255),
         about text,
         rating integer,
+        primary key (id)
+    )
+
+    create table invalid_session (
+       id  bigserial not null,
+        created_at timestamp,
+        created_by varchar(255),
+        updated_at timestamp,
+        updated_by varchar(255),
+        expires_at int8,
+        session_uuid varchar(255),
+        username varchar(255),
         primary key (id)
     )
 
@@ -108,6 +121,7 @@ create index idx_chess_user_chess_user_detail_id on chess_user (chess_user_detai
     alter table if exists chess_user 
        add constraint idx_chess_user_email unique (email)
 create index idx_chess_user_detail_rating on chess_user_detail (rating)
+create index idx_invalid_session_username_session_uuid on invalid_session (username, session_uuid)
 create index idx_pgn_game on pgn_game (last_name, moves)
 create index idx_pgn_game_processed on pgn_game (processed)
 

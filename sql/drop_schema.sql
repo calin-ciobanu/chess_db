@@ -40,4 +40,6 @@
 
     drop table if exists chess_user_detail cascade
 
+    drop table if exists invalid_session cascade
+
     drop table if exists pgn_game cascade

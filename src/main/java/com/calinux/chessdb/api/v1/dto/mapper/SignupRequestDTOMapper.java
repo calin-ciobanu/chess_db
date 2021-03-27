@@ -1,6 +1,5 @@
 package com.calinux.chessdb.api.v1.dto.mapper;
 
-import com.calinux.chessdb.api.v1.dto.ChessUserDTO;
 import com.calinux.chessdb.api.v1.dto.SignupRequestDTO;
 import com.calinux.chessdb.entity.ChessUser;
 import org.mapstruct.Mapper;

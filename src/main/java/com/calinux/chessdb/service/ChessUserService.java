@@ -1,10 +1,12 @@
 package com.calinux.chessdb.service;
 
-import com.calinux.chessdb.api.v1.dto.UserResponseDTO;
 import com.calinux.chessdb.entity.ChessUser;
+import com.calinux.chessdb.entity.enums.ChessUserRole;
 
 public interface ChessUserService {
-    ChessUser create(ChessUser toChessUser);
+    ChessUser create(ChessUser toChessUser, ChessUserRole chessUserRole);
 
     ChessUser getById(Long id);
+
+    ChessUser getByUsername(String username);
 }

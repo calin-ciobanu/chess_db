@@ -1,6 +1,5 @@
 package com.calinux.chessdb.service;
 
-import com.calinux.chessdb.api.v1.dto.ImportGameResponseDTO;
 import com.calinux.chessdb.api.v1.exception.GameImportException;
 import com.calinux.chessdb.api.v1.exception.JobNotFoundException;
 import lombok.Setter;

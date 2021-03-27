@@ -1,8 +1,10 @@
 package com.calinux.chessdb.api.v1.controller;
 
 import com.calinux.chessdb.api.v1.UrlHelper;
-import com.calinux.chessdb.api.v1.dto.UserResponseDTO;
+import com.calinux.chessdb.api.v1.dto.AuthenticatedResponseDTO;
+import com.calinux.chessdb.api.v1.dto.ChessUserDTO;
 import com.calinux.chessdb.api.v1.dto.SignupRequestDTO;
+import com.calinux.chessdb.api.v1.dto.SignupResponseDTO;
 import com.calinux.chessdb.api.v1.facade.ChessUserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +19,17 @@ public class ChessUserController {
     private final ChessUserFacade chessUserFacade;
 
     @PostMapping
-    public UserResponseDTO create(@Valid @RequestBody SignupRequestDTO signupRequestDTO) {
-        UserResponseDTO userResponseDTO = chessUserFacade.create(signupRequestDTO);
+    public SignupResponseDTO create(@Valid @RequestBody SignupRequestDTO signupRequestDTO) {
+        SignupResponseDTO signupResponseDTO = chessUserFacade.create(signupRequestDTO);
 
-        return userResponseDTO;
+        return signupResponseDTO;
     }
 
     @GetMapping("/{id}")
-    public UserResponseDTO getUserById(@PathVariable Long id) {
-        UserResponseDTO userResponseDTO = chessUserFacade.getById(id);
+    public ChessUserDTO getUserById(@PathVariable Long id) {
+        ChessUserDTO authenticatedResponseDTO = chessUserFacade.getById(id);
 
-        return userResponseDTO;
+        return authenticatedResponseDTO;
     }
 
 }
